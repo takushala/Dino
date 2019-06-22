@@ -12,10 +12,7 @@ HOST = "127.0.0.1"
 PORT = 1234
 connection_established = False
 conn, addr = None, None
-
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.bind((HOST, PORT))
-sock.listen(1)
 
 # Threading
 def createThread(target):
@@ -24,18 +21,16 @@ def createThread(target):
     thread.start()
     
 def recData():
-    pass
+    pass   
     
-def waitForConnection():
-    global connection_established, conn, addr
-    conn, addr = sock.accept()
-    print('Connected')
-    print(conn.recv(1024).decode())
-    connection_established = True
-    recData()
-
-
-createThread(waitForConnection)
+def connectToServer():
+    global connection_established, conn, addr, sock
+    while True:
+        conn = sock.connect((HOST, PORT))
+        connection_established = True
+        print(sock.recv(1024).decode())
+    
+createThread(connectToServer)
 
 # Game
 pygame.font.init()
@@ -106,7 +101,7 @@ def pause():
                     play()
 
 def play():
-    global running, score, multiplier, clock, Dino, obstacles, connection_established, conn
+    global running, score, multiplier, clock, Dino, obstacles, connection_established, sock
     while running:
         for event in pygame.event.get():
             if event.type == 12:
@@ -122,9 +117,8 @@ def play():
 
         if collide():
             if connection_established:
-                print('sending result')
                 data = "You won"
-                conn.send(data.encode())
+                sock.send(data.encode())
                 break
             break
         

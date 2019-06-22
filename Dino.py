@@ -10,6 +10,8 @@ class dino:
     jumping = False
     size = (48, 48)
     ducking = False
+    counter = 0
+    frameInterval = 5
     
     def __init__ (self, posX, posY):
         self.defaultPosY = posY
@@ -45,15 +47,21 @@ class dino:
             self.size = (48, 48)
             self.models = self.normalModels
     
-    def move(self):
-        if self.jumping:
-            self.state = 0
-            self.models = self.specialModels
-        elif self.state < 3:
+    def switchState(self):
+        if self.state < 3:
             self.state = self.state+1
             self.posY = self.defaultPosY - self.size[1]
         else:
             self.state = 0
             self.posY = self.defaultPosY - self.size[1]
+        self.counter = 0
+    
+    def move(self):
+        if self.jumping:
+            self.state = 0
+            self.models = self.specialModels
+        elif self.counter >= self.frameInterval:
+            self.switchState()
+        self.counter = self.counter + 1
         self.model = pygame.image.load(self.models[self.state])
         self.model = pygame.transform.scale(self.model, self.size)

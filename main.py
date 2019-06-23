@@ -8,7 +8,7 @@ import socket
 import threading
 
 # Socket
-HOST = "127.0.0.1"
+HOST = "192.168.1.94"
 PORT = 1234
 connection_established = False
 conn, addr = None, None
@@ -27,12 +27,18 @@ def recData():
     pass
     
 def waitForConnection():
-    global connection_established, conn, addr
+    global connection_established, conn, addr, running, showResult
     conn, addr = sock.accept()
-    print('Connected')
-    print(conn.recv(1024).decode())
     connection_established = True
-    recData()
+    while True:
+        recvData = conn.recv(1024).decode()
+        print(recvData)
+        if recvData == "won":
+            showResult = True
+            running = False
+        if recvData == "go":
+            reset()
+            running = True
 
 
 createThread(waitForConnection)
@@ -41,7 +47,8 @@ createThread(waitForConnection)
 pygame.font.init()
 myfont = pygame.font.Font("assets\PressStart2P-Regular.ttf", 16)
 
-title = "Dino"
+showResult = False
+title = "Dino (server)"
 displayW = 1024
 displayH = 576
 screen = pygame.display.set_mode((displayW, displayH))
@@ -85,29 +92,45 @@ def moveObjects():
     obstacles[1].move(xVelocity*multiplier)
 
 def renderObjects():
+    global showResult
+    if showResult:
+        result = myfont.render("You won", False, (0, 0, 0))
+        screen.blit(result,(0.45*displayW, 0.08*displayH))
     textsurface = myfont.render(str(ceil(score)), False, (0, 0, 0))
     screen.blit(textsurface,(0.9*displayW, 0.08*displayH))
     screen.blit(obstacles[0].model, (obstacles[0].posX, obstacles[0].posY))
     screen.blit(obstacles[1].model, (obstacles[1].posX, obstacles[1].posY))
     screen.blit(Dino.model, (Dino.posX, Dino.posY))
 
+def reset():
+    global multiplier, score, Dino, obstacles
+    multiplier = 1
+    score = 0
+    Dino = dino(displayW*0.075, displayH*0.7)
+    obstacles = [cactus(displayW, displayH*0.7), cactus(displayW + randint(displayW/2, displayW), displayH*0.7)]
+
 def pause():
-    global score, Dino, obstacles, multiplier
-    while 1:
+    global score, Dino, obstacles, multiplier, running, conn, connection_established, showResult
+    print("Pause:", running)    
+    while not running:
         for event in pygame.event.get():
             if event.type == 12:
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    multiplier = 1
-                    score = 0
-                    Dino = dino(displayW*0.075, displayH*0.7)
-                    obstacles = [cactus(displayW, displayH*0.7), cactus(displayW + randint(displayW/2, displayW), displayH*0.7)]
-                    play()
+                    reset()
+                    if connection_established:
+                        conn.send("go".encode())
+                    showResult = False
+                    running = True
+    play()
 
 def play():
     global running, score, multiplier, clock, Dino, obstacles, connection_established, conn
+    print("Play:", running)    
     while running:
+        if not connection_established:
+            multiplier = 0
         for event in pygame.event.get():
             if event.type == 12:
                 quit()
@@ -123,9 +146,9 @@ def play():
         if collide():
             if connection_established:
                 print('sending result')
-                data = "You won"
+                data = "won"
                 conn.send(data.encode())
-                break
+                running = False
             break
         
         screen.fill(background)
@@ -133,7 +156,7 @@ def play():
         moveObjects()
         renderObjects()
         newObstacle()
-        score = score + 0.125
+        score = score + 0.125*multiplier
         multiplier = 1 + floor(score/100)/2
         pygame.display.update()
         clock.tick(framerate)
@@ -144,6 +167,7 @@ def play():
     pygame.draw.line(screen, (0,0,0), (displayW, displayH*0.68), (0, displayH*0.68))
     renderObjects()
     pygame.display.update()
+    print("Play:", running)
     pause()
 
 play()

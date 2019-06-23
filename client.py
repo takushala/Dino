@@ -6,7 +6,7 @@ from random import randint
 from math import floor, ceil
 import socket
 import threading
-from tkinter import *
+from tkinter import Tk, Entry, Label, Button
 
 # Socket
 HOST = "127.0.0.1"

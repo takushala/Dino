@@ -8,7 +8,7 @@ import socket
 import threading
 
 # Socket
-HOST = "192.168.1.94"
+HOST = socket.gethostbyname(socket.gethostname())
 PORT = 1234
 connection_established = False
 conn, addr = None, None
@@ -32,7 +32,6 @@ def waitForConnection():
     connection_established = True
     while True:
         recvData = conn.recv(1024).decode()
-        print(recvData)
         if recvData == "won":
             showResult = True
             running = False
@@ -92,10 +91,15 @@ def moveObjects():
     obstacles[1].move(xVelocity*multiplier)
 
 def renderObjects():
-    global showResult
+    global showResult, HOST, connection_established, PORT
     if showResult:
         result = myfont.render("You won", False, (0, 0, 0))
         screen.blit(result,(0.45*displayW, 0.08*displayH))
+    if not connection_established:
+        info = myfont.render("Waiting for connection at " + HOST+ ":" + str(PORT), False, (0, 0, 0))
+    else:
+        info = myfont.render("Client connected", False, (0, 0, 0))
+    screen.blit(info,(0.05*displayW, 0.08*displayH))
     textsurface = myfont.render(str(ceil(score)), False, (0, 0, 0))
     screen.blit(textsurface,(0.9*displayW, 0.08*displayH))
     screen.blit(obstacles[0].model, (obstacles[0].posX, obstacles[0].posY))
@@ -111,7 +115,6 @@ def reset():
 
 def pause():
     global score, Dino, obstacles, multiplier, running, conn, connection_established, showResult
-    print("Pause:", running)    
     while not running:
         for event in pygame.event.get():
             if event.type == 12:
@@ -127,7 +130,6 @@ def pause():
 
 def play():
     global running, score, multiplier, clock, Dino, obstacles, connection_established, conn
-    print("Play:", running)    
     while running:
         if not connection_established:
             multiplier = 0
@@ -145,7 +147,6 @@ def play():
 
         if collide():
             if connection_established:
-                print('sending result')
                 data = "won"
                 conn.send(data.encode())
                 running = False
@@ -156,7 +157,8 @@ def play():
         moveObjects()
         renderObjects()
         newObstacle()
-        score = score + 0.125*multiplier
+        if connection_established:
+            score = score + 0.125
         multiplier = 1 + floor(score/100)/2
         pygame.display.update()
         clock.tick(framerate)
@@ -167,7 +169,6 @@ def play():
     pygame.draw.line(screen, (0,0,0), (displayW, displayH*0.68), (0, displayH*0.68))
     renderObjects()
     pygame.display.update()
-    print("Play:", running)
     pause()
 
 play()

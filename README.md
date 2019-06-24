@@ -1,6 +1,6 @@
 # Dino
-Chrome's dino game, written in Python©
-by Hung
+Chrome's Dino Replica©, written in Python 3.
+by Hung.
 
 Required packages:
   - pygame:

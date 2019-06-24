@@ -1,7 +1,8 @@
 # Dino
-Chrome's dino game, written in Python
+Chrome's dino game, written in Python©
+by Hung
 
-Required package:
+Required packages:
   - pygame:
     `pip install pygame`
  or `pip3 install pygame`

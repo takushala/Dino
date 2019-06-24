@@ -43,6 +43,7 @@ def connectToServer():
             running = False
         if recvData == "go":
             reset()
+            showResult = False
             running = True
 
 # Setup

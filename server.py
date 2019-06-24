@@ -37,6 +37,7 @@ def waitForConnection():
             showResult = True
             running = False
         if recvData == "go":
+            showResult = False
             reset()
             running = True
 

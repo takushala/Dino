@@ -15,7 +15,7 @@ Required package:
     `sudo apt-get install python3-tk`
     
 How to run:
-  1 - Start the server first with:
+  1. Start the server first with:
       `python server.py`
    or `python3 server.py`
  

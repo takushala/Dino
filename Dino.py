@@ -1,11 +1,12 @@
 import pygame
+import os
 
 class dino:
-    
-    models = ["assets\dino0000.png","assets\dinorun0000.png","assets\dino0000.png", "assets\dinorun0001.png"]
-    normalModels = ["assets\dino0000.png","assets\dinorun0000.png","assets\dino0000.png", "assets\dinorun0001.png", "assets\dinoJump0000.png"]
-    duckModels = ["assets\dinoduck0000.png","assets\dinoduck0001.png","assets\dinoduck0000.png","assets\dinoduck0001.png"]
-    specialModels = ["assets\dinoJump0000.png", "assets\dinoDead0000.png"]
+    os.path.join('assets', 'dino0000.png')
+    models = [os.path.join('assets', 'dino0000.png'),os.path.join('assets', 'dinorun0000.png'),os.path.join('assets', 'dino0000.png'), os.path.join('assets', 'dinorun0001.png')]
+    normalModels = [os.path.join('assets', 'dino0000.png'),os.path.join('assets', 'dinorun0000.png'),os.path.join('assets', 'dino0000.png'), os.path.join('assets', 'dinorun0001.png'), os.path.join('assets', 'dinoJump0000.png')]
+    duckModels = [os.path.join('assets', 'dinoduck0000.png'),os.path.join('assets', 'dinoduck0000.png'),os.path.join('assets', 'dinoduck0000.png'),os.path.join('assets', 'dinoduck0000.png')]
+    specialModels = [os.path.join('assets', 'dinoJump0000.png'), os.path.join('assets', 'dinoDead0000.png')]
     state = 0
     jumping = False
     size = (48, 48)

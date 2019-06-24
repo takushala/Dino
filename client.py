@@ -7,6 +7,7 @@ from math import floor, ceil
 import socket
 import threading
 from tkinter import Tk, Entry, Label, Button
+import os
 
 # Socket
 HOST = "127.0.0.1"
@@ -70,8 +71,7 @@ master.mainloop()
     
 # Game
 pygame.font.init()
-myfont = pygame.font.Font("assets\PressStart2P-Regular.ttf", 16)
-
+myfont = pygame.font.Font(os.path.join('assets','PressStart2P-Regular.ttf'), 16)
 title = "Dino (client)"
 displayW = 1024
 displayH = 576

@@ -6,6 +6,7 @@ from random import randint
 from math import floor, ceil
 import socket
 import threading
+import os
 
 # Socket
 HOST = socket.gethostbyname(socket.gethostname())
@@ -44,7 +45,7 @@ createThread(waitForConnection)
 
 # Game
 pygame.font.init()
-myfont = pygame.font.Font("assets\PressStart2P-Regular.ttf", 16)
+myfont = pygame.font.Font(os.path.join('assets','PressStart2P-Regular.ttf'), 16)
 
 showResult = False
 title = "Dino (server)"

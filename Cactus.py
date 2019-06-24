@@ -1,9 +1,10 @@
 import pygame
 from random import randint
+import os
 
 class cactus:
     
-    models = ["assets\cactusBig0000.png", "assets\cactusSmall0000.png", "assets\cactusSmallMany0000.png"]
+    models = [os.path.join('assets','cactusBig0000.png'), os.path.join('assets','cactusSmall0000.png'), os.path.join('assets','cactusSmallMany0000.png')]
     size = [(30, 60), (20, 40), (60, 40)]
     
     def __init__(self, posX, posY):

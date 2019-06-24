@@ -6,8 +6,8 @@ import os
 class berb:
 
     state = 0
-    models = [os.path.join('assets', 'berb.png'),
-              os.path.join('assets', 'berb2.png')]
+    models = [os.path.join('assets', 'berd.png'),
+              os.path.join('assets', 'berd2.png')]
     size = [(46, 40), (46, 40)]
     counter = 0
     frameInterval = 10

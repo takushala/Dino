@@ -9,7 +9,7 @@ class dino:
     normalModels = [os.path.join('assets', 'dino0000.png'), os.path.join('assets', 'dinorun0000.png'), os.path.join(
         'assets', 'dino0000.png'), os.path.join('assets', 'dinorun0001.png'), os.path.join('assets', 'dinoJump0000.png')]
     duckModels = [os.path.join('assets', 'dinoduck0000.png'), os.path.join('assets', 'dinoduck0000.png'), os.path.join(
-        'assets', 'dinoduck0000.png'), os.path.join('assets', 'dinoduck0000.png')]
+        'assets', 'dinoduck0001.png'), os.path.join('assets', 'dinoduck0001.png')]
     specialModels = [os.path.join('assets', 'dinoJump0000.png'), os.path.join(
         'assets', 'dinoDead0000.png')]
     state = 0

@@ -19,12 +19,12 @@ How to run:
       `python server.py`
    or `python3 server.py`
  
-  2 - Then the client with:
+  2. Then the client with:
       `python client.py`
    or `python3 client.py`
  
-  3 - Input the Ip address and Port displayed on the server into the client
+  3. Input the Ip address and Port displayed on the server into the client
   
-  4 - Play!
+  4. Play!
   
 Note: The game only works in Local Network.

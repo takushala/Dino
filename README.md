@@ -1,6 +1,6 @@
 # Dino
 Chrome's dino game, written in Python©
-By Hung
+by Hung
 
 Required packages:
   - pygame:
